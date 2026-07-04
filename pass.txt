@@ -1,0 +1,55 @@
+============================================================
+  NEXEVENT — COLLEGE EVENT HUB
+  Pre-Set Staff & Council Login Credentials
+  (These accounts are pre-loaded. DO NOT share publicly.)
+============================================================
+
+ROLE: PRESIDENT
+  Email    : president@clg.com
+  Password : Pres@2026
+  Name     : President Alex
+  Roll ID  : PRES-01
+  Dept     : Student Council
+
+------------------------------------------------------------
+
+ROLE: VICE PRESIDENT
+  Email    : vp@clg.com
+  Password : VP@2026
+  Name     : VP Sarah
+  Roll ID  : VP-02
+  Dept     : Student Council
+
+------------------------------------------------------------
+
+ROLE: TEAM LEADER
+  Email    : tl@clg.com
+  Password : TL@2026
+  Name     : TL Charlie
+  Roll ID  : TL-101
+  Dept     : Computer Science
+
+------------------------------------------------------------
+
+ROLE: MANAGER
+  Email    : mgr@clg.com
+  Password : Mgr@2026
+  Name     : Manager Diana
+  Roll ID  : MGR-201
+  Dept     : Electronics
+
+------------------------------------------------------------
+
+ROLE: STUDENT (Demo Account)
+  Email    : student@clg.com
+  Password : Student@2026
+  Name     : Student Alice
+  Roll ID  : CS-402
+  Dept     : Computer Science
+
+============================================================
+NOTE:
+  - Students can self-register at the portal (role: Student only).
+  - Council & Coordinator accounts are pre-set by admin only.
+  - To change a password, update js/events.js bootstrapData().
+============================================================

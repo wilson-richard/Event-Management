@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexEvent | College Event Hub</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome icons for a modern UI -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="css/styles.css?v=2.0">
+</head>
+<body class="dark-theme">
+    <!-- Global Notification Banner Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- MAIN APP WRAPPER -->
+    <div id="app-container">
+        <!-- AUTH SECTION -->
+        <section id="auth-section" class="auth-section">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="logo">
+                        <i class="fa-solid fa-cube logo-icon"></i>
+                        <span>Nex<span class="highlight">Event</span></span>
+                    </div>
+                    <h2>College Event Hub</h2>
+                    <p>Connect, coordinate, and host campus events with vibrant student roles.</p>
+                </div>
+
+                <!-- Tabs to switch between Login and Register -->
+                <div class="auth-tabs">
+                    <button id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
+                    <button id="tab-register" class="auth-tab" onclick="switchAuthTab('register')">Student Signup</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" class="auth-form active-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Campus Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="login-email" required placeholder="rollnumber@clg.com or name@clg.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="login-password" required placeholder="••••••••">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Sign In</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="register-form" class="auth-form" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="reg-name">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-user input-icon"></i>
+                            <input type="text" id="reg-name" required placeholder="Alex Mercer">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Campus Email</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-envelope input-icon"></i>
+                            <input type="email" id="reg-email" required placeholder="alex@clg.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock input-icon"></i>
+                            <input type="password" id="reg-password" required placeholder="Min 6 characters" minlength="6">
+                        </div>
+                    </div>
+                    
+                    <!-- NEW COLLEGE FIELDS -->
+                    <div class="form-row split">
+                        <div class="form-group">
+                            <label for="reg-roll">Roll Number / Staff ID</label>
+                            <div class="input-wrapper">
+                                <i class="fa-regular fa-id-card input-icon"></i>
+                                <input type="text" id="reg-roll" required placeholder="e.g., CS-402">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-phone">Contact Number</label>
+                            <div class="input-wrapper">
+                                <i class="fa-solid fa-phone input-icon"></i>
+                                <input type="tel" id="reg-phone" required placeholder="9876543210" pattern="[0-9]{10}">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-dept">Department</label>
+                        <select id="reg-dept" required>
+                            <option value="">Select Department</option>
+                            <option value="Computer Science">Computer Science (CSE)</option>
+                            <option value="Electronics">Electronics (ECE)</option>
+                            <option value="Electrical">Electrical (EEE)</option>
+                            <option value="Mechanical">Mechanical Engineering</option>
+                            <option value="Business Admin">Business Administration (BBA)</option>
+                            <option value="Science & Arts">Science & Arts</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Register As</label>
+                        <!-- Only students can self-register. Council/Coordinator accounts are pre-set. -->
+                        <div class="role-selector" style="grid-template-columns: 1fr;">
+                            <label class="role-radio-label">
+                                <input type="radio" name="reg-role" value="user" checked>
+                                <span class="role-custom-radio" style="flex-direction:row; justify-content:center; gap:0.75rem; padding:0.85rem;">
+                                    <i class="fa-solid fa-user-graduate" style="font-size:1.2rem;"></i>
+                                    <span style="font-size:0.9rem;">Student / Attendee</span>
+                                </span>
+                            </label>
+                        </div>
+                        <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.5rem; padding:0.6rem 0.75rem; background:rgba(139,92,246,0.07); border:1px solid rgba(139,92,246,0.2); border-radius:8px;">
+                            <i class="fa-solid fa-lock" style="color:var(--violet);"></i>
+                            &nbsp;Council &amp; Coordinator accounts (President, VP, TL, Manager) are <strong style="color:var(--text-primary);">pre-set by admin</strong>. Use the Sign In tab with provided credentials.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <span>Sign Up</span>
+                        <i class="fa-solid fa-user-plus"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- DASHBOARD CONTAINER (Visible after Login) -->
+        <div id="main-layout" class="main-layout hidden">
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo">
+                        <i class="fa-solid fa-cube logo-icon"></i>
+                        <span>Nex<span class="highlight">Event</span></span>
+                    </div>
+                </div>
+
+                <!-- User Info Profile Card -->
+                <div class="profile-card">
+                    <div class="avatar" id="user-avatar">S</div>
+                    <div class="profile-info">
+                        <h4 id="user-display-name">Loading...</h4>
+                        <span id="user-display-role" class="badge">Role</span>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC NAVIGATION MENU -->
+                <nav class="nav-menu">
+                    <!-- 1. Student (Attendee) Nav Menu -->
+                    <div id="user-nav-links" class="nav-group">
+                        <a href="#" class="nav-link active" onclick="navigateTo('user-dashboard')">
+                            <i class="fa-solid fa-chart-pie"></i><span>Dashboard</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo('browse-events')">
+                            <i class="fa-solid fa-calendar-days"></i><span>Browse Events</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo('my-applications')">
+                            <i class="fa-solid fa-ticket-simple"></i><span>My Applications</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo('user-notifications')">
+                            <i class="fa-solid fa-bell"></i><span>Notifications</span>
+                            <span id="nav-notif-badge" class="nav-badge hidden">0</span>
+                        </a>
+                    </div>
+
+                    <!-- 2. Council (President & Vice President) Nav Menu -->
+                    <div id="council-nav-links" class="nav-group hidden">
+                        <a href="#" class="nav-link active" onclick="navigateTo('admin-dashboard')">
+                            <i class="fa-solid fa-chart-line"></i><span>Overview</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo('manage-events')">
+                            <i class="fa-solid fa-calendar-plus"></i><span>Manage Events</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo('review-applications')">
+                            <i class="fa-solid fa-clipboard-list"></i><span>Review Requests</span>
+                            <span id="nav-pending-badge" class="nav-badge hidden">0</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo('manage-users')">
+                            <i class="fa-solid fa-users"></i><span>Manage Members</span>
+                        </a>
+                    </div>
+
+                    <!-- 3. Coordinator (Team Leader & Manager) Nav Menu -->
+                    <div id="coord-nav-links" class="nav-group hidden">
+                        <a href="#" class="nav-link active" onclick="navigateTo('coord-dashboard')">
+                            <i class="fa-solid fa-compass"></i><span>Assigned Events</span>
+                        </a>
+                        <a href="#" class="nav-link" onclick="navigateTo('coord-roster')">
+                            <i class="fa-solid fa-people-group"></i><span>Attendee Rosters</span>
+                        </a>
+                    </div>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="btn btn-secondary btn-block logout-btn" onclick="handleLogout()">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        <span>Log Out</span>
+                    </button>
+                </div>
+            </aside>
+
+            <!-- MAIN WORKSPACE CONTENT -->
+            <main class="main-content">
+                <!-- Topbar header -->
+                <header class="content-header">
+                    <div class="header-left">
+                        <h1 id="page-title">Dashboard</h1>
+                        <p id="page-description">Welcome back! Here's what's happening today.</p>
+                    </div>
+                    <div class="header-right">
+                        <div class="system-time">
+                            <i class="fa-regular fa-clock"></i>
+                            <span id="live-time">00:00:00</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- WORKSPACE PANELS -->
+                <div class="panel-container">
+                    
+                    <!-- USER MODULE: DASHBOARD -->
+                    <section id="panel-user-dashboard" class="content-panel active-panel">
+                        <!-- Stats Grid -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon applied"><i class="fa-solid fa-paper-plane"></i></div>
+                                <div class="stat-details">
+                                    <h3>Applied Events</h3>
+                                    <p class="stat-number" id="user-stat-applied">0 / 2</p>
+                                    <span class="stat-subtext">Max capacity of 2 applications</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon approved"><i class="fa-solid fa-circle-check"></i></div>
+                                <div class="stat-details">
+                                    <h3>Approved Passes</h3>
+                                    <p class="stat-number" id="user-stat-approved">0</p>
+                                    <span class="stat-subtext">Active entry tickets</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon pending"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                                <div class="stat-details">
+                                    <h3>Pending Reviews</h3>
+                                    <p class="stat-number" id="user-stat-pending">0</p>
+                                    <span class="stat-subtext">Awaiting council approval</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dashboard Split Columns -->
+                        <div class="split-grid">
+                            <!-- Quick Tickets -->
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h3>Recent Active Passes</h3>
+                                    <button class="btn btn-text" onclick="navigateTo('my-applications')">View All</button>
+                                </div>
+                                <div id="user-dashboard-tickets" class="dashboard-list">
+                                    <div class="empty-state">
+                                        <i class="fa-solid fa-ticket-simple"></i>
+                                        <p>No approved passes yet. Register for events to get entry tickets.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notification Ticker -->
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h3>Recent Notifications</h3>
+                                    <button class="btn btn-text" onclick="navigateTo('user-notifications')">Clear All</button>
+                                </div>
+                                <div id="user-dashboard-notifs" class="dashboard-list">
+                                    <div class="empty-state">
+                                        <i class="fa-regular fa-bell"></i>
+                                        <p>No new notifications.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- USER MODULE: BROWSE EVENTS -->
+                    <section id="panel-browse-events" class="content-panel">
+                        <!-- Filters Section -->
+                        <div class="filters-bar glass-card">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="search-events-input" placeholder="Search by title, department, coordinator..." onkeyup="filterEventsList()">
+                            </div>
+                            <div class="filter-actions">
+                                <select id="filter-category" onchange="filterEventsList()">
+                                    <option value="all">All Categories</option>
+                                    <option value="Tech">Technology</option>
+                                    <option value="Music">Music & Art</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Lifestyle">Lifestyle</option>
+                                </select>
+                                <select id="filter-status" onchange="filterEventsList()">
+                                    <option value="all">All Timings</option>
+                                    <option value="upcoming">Upcoming</option>
+                                    <option value="today">Today</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Events Grid -->
+                        <div id="events-grid-container" class="events-grid">
+                            <!-- Dynamically Rendered Event Cards -->
+                        </div>
+                    </section>
+
+                    <!-- USER MODULE: MY APPLICATIONS -->
+                    <section id="panel-my-applications" class="content-panel">
+                        <div class="glass-card">
+                            <div class="table-container">
+                                <table class="custom-table" id="my-apps-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Banner</th>
+                                            <th>Event Title</th>
+                                            <th>Date & Time</th>
+                                            <th>Coordinator</th>
+                                            <th>Status</th>
+                                            <th>Action / Ticket</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="my-apps-tbody">
+                                        <!-- Dynamic rows -->
+                                    </tbody>
+                                </table>
+                                <div id="my-apps-empty" class="empty-state">
+                                    <i class="fa-solid fa-folder-open"></i>
+                                    <p>You haven't applied for any events yet. Browse events to apply.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- USER MODULE: NOTIFICATIONS -->
+                    <section id="panel-user-notifications" class="content-panel">
+                        <div class="glass-card max-width-card">
+                            <div class="card-header border-bottom">
+                                <h3>Inbox Messages</h3>
+                                <button class="btn btn-secondary btn-sm" onclick="clearAllNotifications()">
+                                    <i class="fa-solid fa-trash-can"></i> Clear All
+                                </button>
+                            </div>
+                            <div id="notifications-timeline" class="notifications-timeline">
+                                <!-- Dynamic notifications lists -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- COUNCIL MODULE: DASHBOARD -->
+                    <section id="panel-admin-dashboard" class="content-panel">
+                        <!-- Admin Stats Grid -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon total-events"><i class="fa-solid fa-calendar-days"></i></div>
+                                <div class="stat-details">
+                                    <h3>Platform Events</h3>
+                                    <p class="stat-number" id="admin-stat-events">0</p>
+                                    <span class="stat-subtext">Active scheduling listings</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon total-users"><i class="fa-solid fa-users"></i></div>
+                                <div class="stat-details">
+                                    <h3>Registered Members</h3>
+                                    <p class="stat-number" id="admin-stat-users">0</p>
+                                    <span class="stat-subtext">Students & coordinators</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon pending-requests"><i class="fa-solid fa-hourglass-half"></i></div>
+                                <div class="stat-details">
+                                    <h3>Pending Requests</h3>
+                                    <p class="stat-number" id="admin-stat-pending">0</p>
+                                    <span class="stat-subtext">Awaiting council reviews</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Admin Split Columns -->
+                        <div class="split-grid">
+                            <!-- Pending Registrations Review Quick List -->
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h3>Applications Requiring Action</h3>
+                                    <button class="btn btn-text" onclick="navigateTo('review-applications')">Manage All</button>
+                                </div>
+                                <div id="admin-dashboard-reviews" class="dashboard-list">
+                                    <!-- Dynamic list of pending applications -->
+                                    <div class="empty-state">
+                                        <i class="fa-solid fa-circle-check text-success"></i>
+                                        <p>All clear! No pending applications to review.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Platform Event Quick Stats -->
+                            <div class="glass-card">
+                                <div class="card-header">
+                                    <h3>Event Popularity</h3>
+                                </div>
+                                <div id="admin-dashboard-top-events" class="dashboard-list">
+                                    <!-- Dynamic representation of events popularity -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- COUNCIL MODULE: MANAGE EVENTS -->
+                    <section id="panel-manage-events" class="content-panel">
+                        <div class="split-grid-form">
+                            <!-- Event Creation Form -->
+                            <div class="glass-card form-wrapper">
+                                <div class="card-header border-bottom">
+                                    <h3>Publish Campus Event</h3>
+                                </div>
+                                <form id="create-event-form" onsubmit="handleCreateEvent(event)" class="padded-form">
+                                    <div class="form-row">
+                                        <div class="form-group fluid">
+                                            <label for="event-title">Event Title</label>
+                                            <input type="text" id="event-title" required placeholder="e.g., CodeCraft CSE Hackathon">
+                                        </div>
+                                    </div>
+                                    <div class="form-row split">
+                                        <div class="form-group">
+                                            <label for="event-category">Category</label>
+                                            <select id="event-category" required>
+                                                <option value="Tech">Technology</option>
+                                                <option value="Music">Music & Art</option>
+                                                <option value="Business">Business</option>
+                                                <option value="Lifestyle">Lifestyle</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="event-capacity">Total Capacity</label>
+                                            <input type="number" id="event-capacity" min="5" max="1000" required value="100">
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- COORDINATOR ASSIGNMENT (NEW FEATURE) -->
+                                    <div class="form-row">
+                                        <div class="form-group fluid">
+                                            <label for="event-coordinator">Assign Coordinator (Team Leader / Manager)</label>
+                                            <select id="event-coordinator" required>
+                                                <option value="">Select Coordinator</option>
+                                                <!-- Populated dynamically -->
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row split">
+                                        <div class="form-group">
+                                            <label for="event-date">Date</label>
+                                            <input type="date" id="event-date" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="event-time">Time</label>
+                                            <input type="time" id="event-time" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group fluid">
+                                            <label for="event-location">Venue / Online Room</label>
+                                            <input type="text" id="event-location" required placeholder="e.g., Seminar Block, Room 102">
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group fluid">
+                                            <label for="event-banner-select">Banner Color Theme</label>
+                                            <div class="banner-selector-grid">
+                                                <label class="banner-option">
+                                                    <input type="radio" name="event-banner" value="tech1" checked>
+                                                    <div class="banner-preview tech1-bg"><span>Tech</span></div>
+                                                </label>
+                                                <label class="banner-option">
+                                                    <input type="radio" name="event-banner" value="music1">
+                                                    <div class="banner-preview music1-bg"><span>Music</span></div>
+                                                </label>
+                                                <label class="banner-option">
+                                                    <input type="radio" name="event-banner" value="business1">
+                                                    <div class="banner-preview business1-bg"><span>Business</span></div>
+                                                </label>
+                                                <label class="banner-option">
+                                                    <input type="radio" name="event-banner" value="lifestyle1">
+                                                    <div class="banner-preview lifestyle1-bg"><span>Lifestyle</span></div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group fluid">
+                                            <label for="event-desc">Description</label>
+                                            <textarea id="event-desc" rows="4" required placeholder="Write details about the rules, schedules, and coordinators..."></textarea>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <i class="fa-solid fa-plus"></i> Create & Assign Event
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- List of Admin Created Events -->
+                            <div class="glass-card">
+                                <div class="card-header border-bottom">
+                                    <h3>Active Campus Listings</h3>
+                                </div>
+                                <div class="admin-listings-container" id="admin-event-listings">
+                                    <!-- Dynamic event listings with delete button -->
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- COUNCIL MODULE: REVIEW APPLICATIONS -->
+                    <section id="panel-review-applications" class="content-panel">
+                        <div class="glass-card">
+                            <div class="table-container">
+                                <table class="custom-table" id="admin-reviews-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Student Info</th>
+                                            <th>Requested Event</th>
+                                            <th>Date Applied</th>
+                                            <th>Status</th>
+                                            <th>Decision / Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-reviews-tbody">
+                                        <!-- Dynamic lists -->
+                                    </tbody>
+                                </table>
+                                <div id="admin-reviews-empty" class="empty-state">
+                                    <i class="fa-solid fa-inbox"></i>
+                                    <p>No entry registration requests found.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- COUNCIL MODULE: MANAGE USERS -->
+                    <section id="panel-manage-users" class="content-panel">
+                        <div class="glass-card">
+                            <div class="table-container">
+                                <table class="custom-table" id="admin-users-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Roll No / Staff ID</th>
+                                            <th>Name</th>
+                                            <th>Contact / Email</th>
+                                            <th>Role</th>
+                                            <th>Department</th>
+                                            <th>Applications</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="admin-users-tbody">
+                                        <!-- Dynamic user list -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- COORDINATOR MODULE: DASHBOARD -->
+                    <section id="panel-coord-dashboard" class="content-panel">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon total-events" style="background:rgba(245,158,11,0.1); color:var(--accent);"><i class="fa-solid fa-compass"></i></div>
+                                <div class="stat-details">
+                                    <h3>My Coordinated Events</h3>
+                                    <p class="stat-number" id="coord-stat-events">0</p>
+                                    <span class="stat-subtext">Events assigned to me</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon approved"><i class="fa-solid fa-users"></i></div>
+                                <div class="stat-details">
+                                    <h3>Approved Attendees</h3>
+                                    <p class="stat-number" id="coord-stat-attendees">0</p>
+                                    <span class="stat-subtext">Enrolled students across my events</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- List of events assigned to coordinator -->
+                        <div class="glass-card">
+                            <div class="card-header border-bottom">
+                                <h3>Assigned Event Portals</h3>
+                            </div>
+                            <div class="events-grid" id="coord-assigned-events-grid" style="margin-top:1rem;">
+                                <!-- Dynamic event listing cards specifically for coordinate -->
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- COORDINATOR MODULE: ROSTER -->
+                    <section id="panel-coord-roster" class="content-panel">
+                        <div class="glass-card">
+                            <div class="card-header border-bottom">
+                                <h3>Student Attendee Rosters</h3>
+                                <div class="filter-actions" style="margin:0;">
+                                    <select id="coord-roster-event-select" onchange="renderCoordinatorRosterTable()" style="min-width:220px;">
+                                        <option value="">Select Coordinated Event</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-container" style="margin-top:1rem;">
+                                <table class="custom-table" id="coord-roster-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Roll Number</th>
+                                            <th>Student Name</th>
+                                            <th>Department</th>
+                                            <th>Contact Info</th>
+                                            <th>App Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="coord-roster-tbody">
+                                        <!-- Dynamic rows for student lists -->
+                                    </tbody>
+                                </table>
+                                <div id="coord-roster-empty" class="empty-state">
+                                    <i class="fa-solid fa-users-slash"></i>
+                                    <p>Select an event from the dropdown to check approved student details.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- TICKET PREVIEW MODAL -->
+    <div id="ticket-modal" class="modal-overlay hidden" onclick="closeTicketModal(event)">
+        <div class="ticket-modal-card" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeTicketModal(event)"><i class="fa-solid fa-xmark"></i></button>
+            <div class="ticket-header">
+                <h2>Campus Ticket Pass</h2>
+                <p>Present this ticket details card at the check-in desk</p>
+            </div>
+            
+            <div id="ticket-rendering-target">
+                <!-- Dynamic SVG Ticket will render here -->
+            </div>
+
+            <div class="ticket-modal-footer">
+                <button class="btn btn-secondary" onclick="printTicket()"><i class="fa-solid fa-print"></i> Print Pass</button>
+                <button class="btn btn-primary" onclick="closeTicketModal(event)">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- EVENT DESCRIPTION DETAIL MODAL -->
+    <div id="event-detail-modal" class="modal-overlay hidden" onclick="closeEventDetailModal(event)">
+        <div class="event-detail-card" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeEventDetailModal(event)"><i class="fa-solid fa-xmark"></i></button>
+            <div class="detail-banner" id="modal-banner-bg">
+                <span class="detail-badge" id="modal-category-badge">Tech</span>
+            </div>
+            <div class="detail-body">
+                <h2 id="modal-event-title">Event Title Here</h2>
+                
+                <div class="detail-meta-grid">
+                    <div class="meta-item">
+                        <i class="fa-regular fa-calendar"></i>
+                        <div>
+                            <strong>Date</strong>
+                            <span id="modal-event-date">June 30, 2026</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fa-regular fa-clock"></i>
+                        <div>
+                            <strong>Time</strong>
+                            <span id="modal-event-time">14:00 PM</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <strong>Location / Venue</strong>
+                            <span id="modal-event-location">Virtual</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <div>
+                            <strong>Coordinator</strong>
+                            <span id="modal-event-coordinator">TL Charlie</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-description">
+                    <h3>About the Event</h3>
+                    <p id="modal-event-desc">Detailed text describing the event contents...</p>
+                </div>
+            </div>
+            <div class="detail-footer">
+                <span id="modal-capacity-info" class="capacity-alert"></span>
+                <div class="footer-buttons">
+                    <button class="btn btn-secondary" onclick="closeEventDetailModal(event)">Close</button>
+                    <button id="modal-apply-btn" class="btn btn-primary" onclick="handleModalApply()">Apply for Event</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core App JS -->
+    <script src="js/events.js?v=2.0"></script>
+    <script src="js/ui.js?v=2.0"></script>
+    <script src="js/app.js?v=2.0"></script>
+</body>
+</html>
