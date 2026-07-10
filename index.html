@@ -150,6 +150,10 @@
                         <i class="fa-solid fa-cube logo-icon"></i>
                         <span>Nex<span class="highlight">Event</span></span>
                     </div>
+                    <!-- Mobile Nav Close Toggle -->
+                    <button id="mobile-nav-close" class="mobile-nav-btn close-btn" onclick="document.querySelector('.sidebar').classList.remove('mobile-active')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
                 </div>
 
                 <!-- User Info Profile Card -->
@@ -216,13 +220,22 @@
                 </div>
             </aside>
 
+            <!-- Sidebar backdrop overlay for mobile/tablet drawer -->
+            <div class="sidebar-overlay" onclick="document.querySelector('.sidebar').classList.remove('mobile-active')"></div>
+
             <!-- MAIN WORKSPACE CONTENT -->
             <main class="main-content">
                 <!-- Topbar header -->
                 <header class="content-header">
                     <div class="header-left">
-                        <h1 id="page-title">Dashboard</h1>
-                        <p id="page-description">Welcome back! Here's what's happening today.</p>
+                        <!-- Mobile Hamburger Toggle -->
+                        <button id="mobile-nav-toggle" class="mobile-nav-btn" onclick="document.querySelector('.sidebar').classList.add('mobile-active')">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div class="header-title-area">
+                            <h1 id="page-title">Dashboard</h1>
+                            <p id="page-description">Welcome back! Here's what's happening today.</p>
+                        </div>
                     </div>
                     <div class="header-right">
                         <div class="system-time">

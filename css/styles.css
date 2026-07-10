@@ -1515,3 +1515,210 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 10px 40px rgba(6,182,212,0.12);
 }
 .toast-info i { color: var(--cyan); }
+
+/* ─────────────────────────────────────────
+   RESPONSIVE DESIGN (TABLETS & MOBILE SCREENS)
+───────────────────────────────────────── */
+
+/* ── Mobile menu button styling ── */
+.mobile-nav-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+}
+.mobile-nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(139, 92, 246, 0.4);
+}
+.mobile-nav-btn.close-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+}
+
+/* ── Backdrop Overlay ── */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(4, 6, 12, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Large screens setup overrides ── */
+@media (min-width: 1025px) {
+    .sidebar-overlay { display: none !important; }
+    #mobile-nav-toggle { display: none !important; }
+    #mobile-nav-close { display: none !important; }
+}
+
+/* ── Media queries for Tablet & Mobile (under 1024px) ── */
+@media (max-width: 1024px) {
+    .main-layout {
+        grid-template-columns: 1fr !important; /* Sidebar collapses to drawer */
+    }
+
+    /* Floating navigation drawer */
+    .sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        height: 100vh !important;
+        width: 280px !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        z-index: 100 !important;
+        box-shadow: 20px 0 50px rgba(0, 0, 0, 0.8) !important;
+        background: #0d1221 !important;
+    }
+
+    .sidebar.mobile-active {
+        transform: translateX(0) !important;
+    }
+
+    /* Show close button in drawer */
+    .sidebar-header {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+    }
+
+    #mobile-nav-close {
+        display: flex !important;
+    }
+
+    /* Show hamburger menu toggle in header */
+    #mobile-nav-toggle {
+        display: flex !important;
+        flex-shrink: 0;
+    }
+
+    .content-header {
+        padding: 0 1.5rem !important;
+    }
+
+    .header-left {
+        display: flex !important;
+        align-items: center !important;
+        gap: 1.25rem !important;
+    }
+
+    /* Show backdrop overlay when sidebar is active */
+    .sidebar.mobile-active ~ .sidebar-overlay {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+    }
+
+    /* Adjust page layout elements */
+    .panel-container {
+        padding: 1.5rem !important;
+    }
+
+    /* Form selector grid wrapping */
+    .banner-selector-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* ── Media queries for Mobile (under 768px) ── */
+@media (max-width: 768px) {
+    .content-header {
+        height: auto !important;
+        padding: 1.25rem 1rem !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.85rem !important;
+    }
+    
+    .header-right {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+    }
+
+    .system-time {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .panel-container {
+        padding: 1rem !important;
+    }
+
+    /* Catalog filtering layouts */
+    .filters-bar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 1rem !important;
+        padding: 1rem !important;
+    }
+
+    .filter-actions {
+        flex-direction: column !important;
+        gap: 0.65rem !important;
+    }
+
+    .filter-actions select {
+        width: 100% !important;
+    }
+
+    /* Forms structures wrapping */
+    .form-row.split {
+        flex-direction: column !important;
+        gap: 0 !important;
+    }
+
+    /* Modals padding scale down */
+    .modal-content, .ticket-modal-card {
+        padding: 1.5rem 1.25rem !important;
+        width: 95% !important;
+    }
+
+    .detail-meta-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.85rem !important;
+    }
+
+    .detail-footer {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        padding: 1.25rem 1.5rem !important;
+        text-align: center !important;
+    }
+
+    .detail-footer .footer-buttons {
+        width: 100% !important;
+    }
+    
+    .detail-footer .footer-buttons button {
+        flex: 1 !important;
+        width: 100% !important;
+    }
+
+    /* SVG Digital Pass scaled auto */
+    #ticket-rendering-target svg {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Table custom wrap */
+    .custom-table th, .custom-table td {
+        padding: 0.8rem 0.6rem !important;
+        font-size: 0.8rem !important;
+    }
+}
+

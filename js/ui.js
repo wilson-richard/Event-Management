@@ -100,6 +100,10 @@ function navigateTo(panelId) {
             renderCoordinatorRosterPage();
             break;
     }
+
+    // Auto-close mobile navigation drawer
+    const sidebar = document.querySelector('.sidebar');
+    if (sidebar) sidebar.classList.remove('mobile-active');
 }
 
 // ── Toast notifications ──
