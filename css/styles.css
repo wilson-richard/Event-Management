@@ -350,7 +350,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow-y: auto;
+    overflow: hidden;
     background: var(--bg-darkest);
 }
 
@@ -403,6 +403,7 @@ body {
     padding: 2rem;
     flex: 1;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .content-panel {
@@ -1583,6 +1584,12 @@ input:focus, select:focus, textarea:focus {
         z-index: 100 !important;
         box-shadow: 20px 0 50px rgba(0, 0, 0, 0.8) !important;
         background: #0d1221 !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+
+    .nav-menu {
+        overflow-y: visible !important;
     }
 
     .sidebar.mobile-active {
